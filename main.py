@@ -4,7 +4,7 @@ from math import ceil
 from random import sample
 
 # get words from file
-with open('randomwordlist.txt', 'r') as f:
+with open('wordlist.txt', 'r') as f:
     words = f.read().splitlines()
 
 # shuffle words
@@ -12,6 +12,7 @@ wordlist = sample(words, len(words))
 
 # calculate n of iterations
 n_bits = 45
+k = 10
 total = ceil(1.177 * 2 ** (ceil(n_bits / 2)))
 print("Words to be checked: ", total)
 
@@ -32,16 +33,16 @@ for x in wordlist:
             break
 
         # hash
-        h = hash(p.encode('UTF-8'), n_bits)
+        h = hash(p.encode('UTF-8'), n_bits, k)
 
         if h in lookup:
             if p not in lookup.values():
                 pbar.close()
                 print("Done")
                 print("s1 =", p)
-                print("s1 hash = ", hash(p.encode('UTF-8'), n_bits))
+                print("s1 hash = ", hash(p.encode('UTF-8'), n_bits, k))
                 print("s2 =", lookup[h])
-                print("s2 hash = ", hash(lookup[h].encode('UTF-8'), n_bits))
+                print("s2 hash = ", hash(lookup[h].encode('UTF-8'), n_bits, k))
                 done = True
                 break
             else:
